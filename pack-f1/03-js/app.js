@@ -25,13 +25,36 @@ function trierParPoints(liste) {
 //      rang (1, 2, 3...) | nom | écurie (chaîne vide si absente) | points | victoires
 //    Chaque <tr> porte l'attribut data-nom. Un nouvel appel REMPLACE le contenu.
 function remplirTableau(idCorps, liste) {
-  // À COMPLÉTER
+  const corps = document.getElementById(idCorps);
+  corps.innerHTML = "";
+
+  for (let i = 0; i < liste.length; i++) {
+    const element = liste[i];
+    const ligne = document.createElement("tr");
+    ligne.dataset.nom = element.nom;
+    const ecurie = element.ecurie || "";
+    ligne.innerHTML =
+      "<td>" + (i + 1) + "</td>" +
+      "<td>" + element.nom + "</td>" +
+      "<td>" + ecurie + "</td>" +
+      "<td>" + element.points + "</td>" +
+      "<td>" + element.victoires + "</td>";
+    corps.appendChild(ligne);
+  }
 }
 
 // 3. marquerPodium(idCorps) : ajoute la classe CSS "podium" aux TROIS PREMIÈRES
 //    lignes du tableau, et la retire de toutes les autres.
 function marquerPodium(idCorps) {
-  // À COMPLÉTER
+  const lignes = document.querySelectorAll("#" + idCorps + " tr");
+
+  for (let i = 0; i < lignes.length; i++) {
+    if (i < 3) {
+      lignes[i].classList.add("podium");
+    } else {
+      lignes[i].classList.remove("podium");
+    }
+  }
 }
 
 /* --- FOURNI — NE PAS MODIFIER : affichage de la saison ------------------- */
