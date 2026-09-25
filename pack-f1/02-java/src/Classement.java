@@ -32,7 +32,6 @@ public class Classement {
     List<Resultat> classement = new ArrayList<>();
 
     for (Ligne ligne : lignes) {
-        // On cherche si le pilote est déjà dans le classement
         Resultat pilote = null;
         for (Resultat r : classement) {
             if (r.nom.equals(ligne.pilote())) {
@@ -40,13 +39,11 @@ public class Classement {
             }
         }
 
-        // Sinon, on le crée
         if (pilote == null) {
             pilote = new Resultat(ligne.pilote(), ligne.ecurie());
             classement.add(pilote);
         }
 
-        // On ajoute ses points, victoires et 2e places
         pilote.points += pointsPourPosition(ligne.position());
         if (ligne.position() == 1) {
             pilote.victoires++;
@@ -56,13 +53,12 @@ public class Classement {
         }
     }
 
-    // Tri : points, puis victoires, puis 2e places (décroissant), puis nom (A→Z)
     classement.sort((a, b) -> {
         if (a.points != b.points) {
             return b.points - a.points;
         }
         if (a.victoires != b.victoires) {
-            return b.victoires - a.victoires;z
+            return b.victoires - a.victoires;
         }
         if (a.deuxiemes != b.deuxiemes) {
             return b.deuxiemes - a.deuxiemes;
