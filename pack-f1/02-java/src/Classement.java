@@ -8,6 +8,7 @@
    ========================================================================= */
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Classement {
 
@@ -18,17 +19,59 @@ public class Classement {
     //    1 -> 25, 2 -> 18, ..., 10 -> 1. Au-delà de la 10e place : 0.
     //    Un abandon vaut la position 0, donc 0 point.
     public static int pointsPourPosition(int position) {
-        // À COMPLÉTER
-        return 0;
+    if (position >= 1 && position <= 10) {
+        return BAREME[position - 1];
     }
+    return 0;
+}
 
     // 2. classementPilotes(lignes) : un Resultat par pilote, avec ses points,
     //    ses victoires (position 1) et ses 2e places, trié par :
     //    points décroissants, puis victoires, puis 2e places, puis nom (A→Z).
     public static List<Resultat> classementPilotes(List<Ligne> lignes) {
-        // À COMPLÉTER
-        return null;
+    List<Resultat> classement = new ArrayList<>();
+
+    for (Ligne ligne : lignes) {
+        // On cherche si le pilote est déjà dans le classement
+        Resultat pilote = null;
+        for (Resultat r : classement) {
+            if (r.nom.equals(ligne.pilote())) {
+                pilote = r;
+            }
+        }
+
+        // Sinon, on le crée
+        if (pilote == null) {
+            pilote = new Resultat(ligne.pilote(), ligne.ecurie());
+            classement.add(pilote);
+        }
+
+        // On ajoute ses points, victoires et 2e places
+        pilote.points += pointsPourPosition(ligne.position());
+        if (ligne.position() == 1) {
+            pilote.victoires++;
+        }
+        if (ligne.position() == 2) {
+            pilote.deuxiemes++;
+        }
     }
+
+    // Tri : points, puis victoires, puis 2e places (décroissant), puis nom (A→Z)
+    classement.sort((a, b) -> {
+        if (a.points != b.points) {
+            return b.points - a.points;
+        }
+        if (a.victoires != b.victoires) {
+            return b.victoires - a.victoires;z
+        }
+        if (a.deuxiemes != b.deuxiemes) {
+            return b.deuxiemes - a.deuxiemes;
+        }
+        return a.nom.compareTo(b.nom);
+    });
+
+    return classement;
+}
 
     // 3. classementEcuries(pilotes) : additionne les points, victoires et
     //    2e places des pilotes de chaque écurie. Même ordre de tri.
