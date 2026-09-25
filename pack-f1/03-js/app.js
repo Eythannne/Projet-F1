@@ -10,7 +10,14 @@
 //    DÉCROISSANTS. La liste reçue ne doit pas être modifiée.
 //    À points égaux, celui qui a le plus de victoires passe devant.
 function trierParPoints(liste) {
-  // À COMPLÉTER
+  const copie = [...liste];
+  copie.sort((a, b) => {
+    if (a.points !== b.points) {
+      return b.points - a.points;
+    }
+    return b.victoires - a.victoires;
+  });
+  return copie;
 }
 
 // 2. remplirTableau(idCorps, liste) : remplit le <tbody> dont l'id est fourni.
